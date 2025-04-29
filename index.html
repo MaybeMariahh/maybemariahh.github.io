@@ -508,6 +508,10 @@
             display: none;
             box-shadow: 0 0 15px rgba(0,0,0,0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            z-index: 999;
         }
         
         .playlist-title {
@@ -633,14 +637,14 @@
         <div class="footer fade-in">
             <p>Creado con 💕 por mi. Inspirado en Sammwy.com | 2025</p>
         </div>
-        
-        <!-- Playlist Container -->
-        <div class="playlist-container" id="playlist-container">
-            <div class="playlist-title">My Music</div>
-            <ul class="song-list" id="song-list">
-                <!-- Songs will be added here dynamically -->
-            </ul>
-        </div>
+    </div>
+    
+    <!-- Playlist Container - Moved outside the main container for better positioning -->
+    <div class="playlist-container" id="playlist-container">
+        <div class="playlist-title">My Music</div>
+        <ul class="song-list" id="song-list">
+            <!-- Songs will be added here dynamically -->
+        </ul>
     </div>
 
     <!-- Reproductor de música -->
@@ -691,6 +695,14 @@
     <audio id="audio"></audio>
 
     <script>
+        // Dummy audio files to simulate real music files
+        // In a real implementation, these would be actual file paths
+        const AUDIO_PATHS = {
+            'I LOVE YOU': 'musica/iloveyou.mp3',
+            'GHOSTS': 'musica/ghosts.mp3',
+            // More songs can be added here
+        };
+        
         window.addEventListener('load', () => {
             document.querySelectorAll('.fade-in').forEach((el, i) => {
                 el.style.animationDelay = `${i * 0.2}s`;
@@ -698,6 +710,8 @@
             
             // Initialize the music player
             initMusicPlayer();
+            // Create stars for background effect
+            createStars();
         });
 
         function createStars() {
@@ -727,10 +741,9 @@
             }
         }
 
-        window.addEventListener('load', createStars);
-
         // Music Player Code
         function initMusicPlayer() {
+            // Get DOM elements
             const audio = document.getElementById('audio');
             const playBtn = document.getElementById('play-btn');
             const playIcon = document.getElementById('play-icon');
@@ -751,18 +764,13 @@
             const songs = [
                 {
                     title: "I LOVE YOU",
-                    path: "musica/iloveyou.mp3"
+                    path: AUDIO_PATHS['I LOVE YOU']
                 },
                 {
                     title: "GHOSTS",
-                    path: "musica/ghosts.mp3"
+                    path: AUDIO_PATHS['GHOSTS']
                 },
                 // Add more songs here in the future
-                // Example:
-                // {
-                //     title: "SONG NAME",
-                //     path: "musica/songname.mp3"
-                // },
             ];
             
             // Player state
@@ -771,171 +779,60 @@
             let isShuffled = false;
             let isRepeating = false;
             
+            // Playlist visibility state
+            let isPlaylistVisible = false;
+            
             // Populate song list
             function populateSongList() {
-                songList.innerHTML = '';
+                songList.innerHTML = ''; // Clear existing items
+                
                 songs.forEach((song, index) => {
                     const li = document.createElement('li');
                     li.className = 'song-item';
                     li.innerHTML = `<span class="song-item-title">${song.title}</span>`;
-                    li.addEventListener('click', () => {
+                    
+                    // Add click event listener
+                    li.addEventListener('click', function() {
                         playSong(index);
                     });
+                    
                     songList.appendChild(li);
                 });
+                
+                // Update active song indication if a song is playing
+                updateActiveSong();
             }
             
             // Initialize song list
             populateSongList();
             
+            // Toggle playlist visibility
+            showPlaylistBtn.addEventListener('click', function() {
+                isPlaylistVisible = !isPlaylistVisible;
+                playlistContainer.style.display = isPlaylistVisible ? 'block' : 'none';
+            });
+            
             // Play a specific song
             function playSong(index) {
                 currentSongIndex = index;
+                
+                // Set audio source and update display
                 audio.src = songs[index].path;
                 currentSongTitle.textContent = songs[index].title;
                 
-                // Update active song in playlist
-                const songItems = document.querySelectorAll('.song-item');
-                songItems.forEach((item, i) => {
-                    if (i === index) {
-                        item.classList.add('active');
-                    } else {
-                        item.classList.remove('active');
-                    }
-                });
-                
-                audio.play();
-                playIcon.textContent = '⏸';
-                isPlaying = true;
-            }
-            
-            // Play/Pause functionality
-            playBtn.addEventListener('click', togglePlay);
-            
-            function togglePlay() {
-                if (audio.src) {
-                    if (isPlaying) {
-                        audio.pause();
-                        playIcon.textContent = '▶';
-                        isPlaying = false;
-                    } else {
-                        audio.play();
+                // Start playing
+                audio.play()
+                    .then(() => {
                         playIcon.textContent = '⏸';
                         isPlaying = true;
-                    }
-                } else if (songs.length > 0) {
-                    // If no song is loaded but songs exist in playlist
-                    playSong(0);
-                }
+                        updateActiveSong();
+                    })
+                    .catch(err => {
+                        console.error("Error playing song:", err);
+                        // Handle error - maybe show message to user
+                        currentSongTitle.textContent = "Error playing song";
+                    });
             }
-            
-            // Next button functionality
-            nextBtn.addEventListener('click', playNextSong);
-            
-            function playNextSong() {
-                if (songs.length > 0) {
-                    if (isShuffled) {
-                        let randomIndex;
-                        do {
-                            randomIndex = Math.floor(Math.random() * songs.length);
-                        } while (randomIndex === currentSongIndex && songs.length > 1);
-                        playSong(randomIndex);
-                    } else {
-                        let nextIndex = (currentSongIndex + 1) % songs.length;
-                        playSong(nextIndex);
-                    }
-                }
-            }
-            
-            // Previous button functionality
-            prevBtn.addEventListener('click', () => {
-                if (songs.length > 0) {
-                    // If current time is more than 3 seconds, restart the song
-                    if (audio.currentTime > 3) {
-                        audio.currentTime = 0;
-                    } else {
-                        // Otherwise go to previous song
-                        let prevIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-                        playSong(prevIndex);
-                    }
-                }
-            });
-            
-            // Shuffle button
-            shuffleBtn.addEventListener('click', () => {
-                isShuffled = !isShuffled;
-                shuffleBtn.style.color = isShuffled ? '#ff9acf' : '#ccc';
-            });
-            
-            // Repeat button
-            repeatBtn.addEventListener('click', () => {
-                isRepeating = !isRepeating;
-                repeatBtn.style.color = isRepeating ? '#ff9acf' : '#ccc';
-                audio.loop = isRepeating;
-            });
-            
-            // Update progress bar
-            audio.addEventListener('timeupdate', () => {
-                if (audio.duration) {
-                    const progressPercent = (audio.currentTime / audio.duration) * 100;
-                    progress.style.width = `${progressPercent}%`;
-                }
-            });
-            
-            // Set progress when clicking on progress bar
-            progressBar.addEventListener('click', (e) => {
-                const width = progressBar.clientWidth;
-                const clickX = e.offsetX;
-                const duration = audio.duration;
-                
-                if (duration) {
-                    audio.currentTime = (clickX / width) * duration;
-                }
-            });
-            
-            // Volume control
-            volumeSlider.addEventListener('click', (e) => {
-                const width = volumeSlider.clientWidth;
-                const clickX = e.offsetX;
-                const volume = clickX / width;
-                
-                audio.volume = volume;
-                volumeLevel.style.width = `${volume * 100}%`;
-            });
-            
-            // When audio ends
-            audio.addEventListener('ended', () => {
-                if (isRepeating) {
-                    // If repeat is on, the native loop will handle it
-                    return;
-                } else if (isShuffled) {
-                    playNextSong();
-                } else if (currentSongIndex < songs.length - 1) {
-                    // If there are more songs in the playlist
-                    playNextSong();
-                } else {
-                    // If it's the last song and not repeating
-                    playIcon.textContent = '▶';
-                    isPlaying = false;
-                }
-            });
-            
-            // Show/hide playlist
-            showPlaylistBtn.addEventListener('click', () => {
-                playlistContainer.style.display = playlistContainer.style.display === 'block' ? 'none' : 'block';
-            });
-            
-            // Keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-                if (e.code === 'Space') {
-                    e.preventDefault();
-                    togglePlay();
-                } else if (e.code === 'ArrowRight') {
-                    playNextSong();
-                } else if (e.code === 'ArrowLeft') {
-                    prevBtn.click();
-                }
-            });
             
             // Update active song in playlist
             function updateActiveSong() {
@@ -948,29 +845,215 @@
                     }
                 });
             }
-        }
-        
-        // Command to play specific music
-        function playMusic(path, title) {
-            const audio = document.getElementById('audio');
-            audio.src = path;
-            document.getElementById('current-song-title').textContent = title;
-            audio.play();
-            document.getElementById('play-icon').textContent = '⏸';
             
-            // Update active song in playlist
-            const songItems = document.querySelectorAll('.song-item');
-            songItems.forEach((item) => {
-                const songTitle = item.querySelector('.song-item-title').textContent;
-                if (songTitle === title) {
-                    item.classList.add('active');
+            // Play/Pause functionality
+            playBtn.addEventListener('click', togglePlay);
+            
+            function togglePlay() {
+                if (!audio.src && songs.length > 0) {
+                    // If no song is loaded but songs exist in playlist
+                    playSong(0);
+                    return;
+                }
+                
+                if (isPlaying) {
+                    audio.pause();
+                    playIcon.textContent = '▶';
+                    isPlaying = false;
                 } else {
-                    item.classList.remove('active');
+                    audio.play()
+                        .then(() => {
+                            playIcon.textContent = '⏸';
+                            isPlaying = true;
+                        })
+                        .catch(err => {
+                            console.error("Error resuming playback:", err);
+                        });
+                }
+            }
+            
+            // Next button functionality
+            nextBtn.addEventListener('click', playNextSong);
+            
+            function playNextSong() {
+                if (songs.length <= 1) return;
+                
+                if (isShuffled) {
+                    let randomIndex;
+                    do {
+                        randomIndex = Math.floor(Math.random() * songs.length);
+                    } while (randomIndex === currentSongIndex && songs.length > 1);
+                    playSong(randomIndex);
+                } else {
+                    let nextIndex = (currentSongIndex + 1) % songs.length;
+                    playSong(nextIndex);
+                }
+            }
+            
+            // Previous button functionality
+            prevBtn.addEventListener('click', function() {
+                if (songs.length <= 1) return;
+                
+                // If current time is more than 3 seconds, restart the song
+                if (audio.currentTime > 3) {
+                    audio.currentTime = 0;
+                } else {
+                    // Otherwise go to previous song
+                    let prevIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+                    playSong(prevIndex);
                 }
             });
+            
+            // Shuffle button
+            shuffleBtn.addEventListener('click', function() {
+                isShuffled = !isShuffled;
+                shuffleBtn.style.color = isShuffled ? '#ff9acf' : '#ccc';
+            });
+            
+            // Repeat button
+            repeatBtn.addEventListener('click', function() {
+                isRepeating = !isRepeating;
+                repeatBtn.style.color = isRepeating ? '#ff9acf' : '#ccc';
+                audio.loop = isRepeating;
+            });
+            
+            // Update progress bar
+          // Update progress bar
+audio.addEventListener('timeupdate', function() {
+    if (!audio.duration) return;
+    
+    const progressPercent = (audio.currentTime / audio.duration) * 100;
+    progress.style.width = `${progressPercent}%`;
+    
+    // Update progress thumb position
+    const progressThumb = document.querySelector('.progress-thumb');
+    if (progressThumb) {
+        progressThumb.style.left = `${progressPercent}%`;
+    }
+});
+
+// Allow user to click on the progress bar to seek
+progressBar.addEventListener('click', function(e) {
+    if (!audio.duration) return;
+    
+    const width = this.clientWidth;
+    const clickX = e.offsetX;
+    const seekTime = (clickX / width) * audio.duration;
+    
+    audio.currentTime = seekTime;
+});
+
+// Volume control
+volumeSlider.addEventListener('click', function(e) {
+    const width = this.clientWidth;
+    const clickX = e.offsetX;
+    const volumeValue = clickX / width;
+    
+    // Update volume level UI
+    volumeLevel.style.width = `${volumeValue * 100}%`;
+    
+    // Update volume thumb position
+    const volumeThumb = document.querySelector('.volume-thumb');
+    if (volumeThumb) {
+        volumeThumb.style.left = `${volumeValue * 100}%`;
+    }
+    
+    // Set actual audio volume (0-1)
+    audio.volume = volumeValue;
+});
+
+// Handle song end
+audio.addEventListener('ended', function() {
+    if (isRepeating) {
+        // Song will automatically loop if repeat is on due to audio.loop = true
+        return;
+    }
+    
+    playNextSong();
+});
+
+// Update UI when song loads
+audio.addEventListener('loadeddata', function() {
+    // Reset progress bar
+    progress.style.width = '0%';
+    // Set play button to pause icon since we auto-play
+    playIcon.textContent = '⏸';
+    isPlaying = true;
+});
+
+// Error handling
+audio.addEventListener('error', function() {
+    currentSongTitle.textContent = "Error loading audio";
+    console.error("Audio error:", audio.error);
+});
+
+// For the Easter egg function to play "I LOVE YOU" song
+window.iLoveYou = function() {
+    // Find the index of "I LOVE YOU" in the song list
+    const iLoveYouIndex = songs.findIndex(song => song.title === "I LOVE YOU");
+    
+    if (iLoveYouIndex !== -1) {
+        playSong(iLoveYouIndex);
+    } else {
+        // Fallback to first song if not found
+        playSong(0);
+    }
+    
+    // Show a little animation
+    const profilePic = document.querySelector('.profile-pic');
+    if (profilePic) {
+        profilePic.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+            profilePic.style.transform = '';
+        }, 500);
+    }
+};
+
+// Set initial volume
+audio.volume = 0.7; // 70% volume by default
+volumeLevel.style.width = '70%';
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    // Space bar to toggle play/pause
+    if (e.code === 'Space' && e.target === document.body) {
+        e.preventDefault(); // Prevent page scrolling
+        togglePlay();
+    }
+    
+    // Right arrow for next song
+    if (e.code === 'ArrowRight' && e.target === document.body) {
+        playNextSong();
+    }
+    
+    // Left arrow for previous song
+    if (e.code === 'ArrowLeft' && e.target === document.body) {
+        prevBtn.click();
+    }
+    
+    // M key to mute/unmute
+    if (e.code === 'KeyM' && e.target === document.body) {
+        if (audio.volume > 0) {
+            // Store current volume for unmuting
+            audio.dataset.lastVolume = audio.volume;
+            audio.volume = 0;
+            volumeLevel.style.width = '0%';
+        } else {
+            // Restore previous volume
+            const lastVolume = parseFloat(audio.dataset.lastVolume || 0.7);
+            audio.volume = lastVolume;
+            volumeLevel.style.width = `${lastVolume * 100}%`;
         }
-        
-        // Special command to play the music from the specified directory
-        function iLoveYou() {
-            playMusic('musica/iloveyou.mp3', 'I LOVE YOU');
-        }
+    }
+});
+
+// Handle window resize for responsive design
+window.addEventListener('resize', function() {
+    // Adjust any UI elements if needed for responsiveness
+    // (For this player, CSS handles most of the responsiveness)
+});
+
+// Initialize first song info but don't autoplay on page load
+if (songs.length > 0) {
+    currentSongTitle.textContent = songs[0].title;}
+    }
