@@ -4,14 +4,317 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MaybeMariah Page !!</title>
-    <!-- Inclusión de la fuente Public Pixel -->
-    <link href="https://fonts.cdnfonts.com/css/public-pixel" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/pixel-borders/1.1.1/pixel-borders.min.css" rel="stylesheet">
     <style>
-        /* Definición de la clase para la fuente pixelada */
-        .pixel-font {
-            font-family: 'Public Pixel', monospace;
+        @font-face {
+            font-family: 'RetroPixel';
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/pixel-borders/1.1.1/pixel-borders.min.css') format('truetype');
         }
-        /* ... (resto de tus estilos CSS) ... */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'RetroPixel', 'Courier New', monospace;
+        }
+
+        body {
+            background-color: #000000;
+            color: #fff;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            <a href="https://es.vecteezy.com/video/2018133-desenfoque-estrellas-coloridas-moviendose-en-el-sentido-de-las-agujas-del-reloj">desenfoque de estrellas de colores moviéndose en el sentido de las agujas del reloj Vídeos de stocko por Vecteezy</a>
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 90%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .nav {
+            background-color: rgba(34, 34, 34, 0.7);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .nav a {
+            color: #a56af5;
+            text-decoration: none;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #ffffff;
+        }
+        
+        /* Estilo para la imagen del catálogo */
+        .catalog-img {
+            height: 24px;
+            width: auto;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            background-color: #333;
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(255, 154, 207, 0.7);
+        }
+
+        .greeting {
+            font-size: 2.5rem;
+            color: #a56af5;
+            margin-bottom: 5px;
+            text-shadow: 3px 3px 0px #333;
+        }
+
+        .name {
+            font-size: 3rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0px #333;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .info-cards {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .card {
+            background-color: rgba(34, 34, 34, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+        }
+
+        .card-text {
+            font-size: 1.2rem;
+        }
+
+        .about-section {
+            background-color: rgba(34, 34, 34, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .about-content {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            line-height: 1.7;
+            letter-spacing: 0.5px;
+        }
+
+        .projects-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .project-card {
+            background-color: rgba(34, 34, 34, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-card:hover {
+            transform: scale(1.03);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 120px;
+            background-color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .project-content {
+            padding: 15px;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            color: #e0e0e0;
+        }
+
+        .links-section {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            background-color: rgba(34, 34, 34, 0.7);
+            backdrop-filter: blur(5px);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .social-link:hover {
+            background-color: rgba(165, 106, 245, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .pixel-star {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .greeting {
+                font-size: 2rem;
+            }
+
+            .name {
+                font-size: 2.5rem;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .info-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 100%;
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Fade-in al cargar */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -24,8 +327,8 @@
     <div class="container">
         <div class="profile-section fade-in" id="home">
             <img src="https://i.ibb.co/1Gtd5KRj/708632f50500d51d92c197180e2f2f03.jpg" alt="Profile" class="profile-pic float-animation">
-            <h2 class="greeting pixel-font">¡Hi! I am</h2>
-            <h1 class="name pixel-font">/Mariah/</h1>
+            <h2 class="greeting">¡Hi! I am</h2>
+            <h1 class="name">/Mariah/</h1>
             <div class="title">✨ Developer ✨</div>
         </div>
 
@@ -112,4 +415,3 @@
     </script>
 </body>
 </html>
-
