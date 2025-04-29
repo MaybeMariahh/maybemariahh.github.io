@@ -317,7 +317,7 @@
             }
         }
 
-        /* ESTILOS DEL REPRODUCTOR DE MÚSICA SIMPLIFICADO */
+        /* ESTILOS DEL REPRODUCTOR DE MÚSICA */
         .music-player {
             position: fixed;
             bottom: 0;
@@ -464,7 +464,7 @@
             display: block;
         }
 
-        /* Animación para el título de la canción */
+        /* animación para coso */
         @keyframes glow {
             0% { text-shadow: 0 0 5px #ff9acf; }
             50% { text-shadow: 0 0 15px #ff9acf, 0 0 20px #a56af5; }
@@ -496,7 +496,7 @@
             transform: translateY(-3px);
         }
 
-        /* Indicador de canción actual / total */
+        /* indicador de cancion dd */
         .song-counter {
             color: #a56af5;
             font-size: 0.9rem;
@@ -565,7 +565,7 @@
         </div>
     </div>
 
-    <!-- Reproductor de música simplificado -->
+    <!-- reproductor de musica -->
     <div class="music-player">
         <div class="song-info">
             <span class="song-title" id="current-song-title">Select a song</span>
@@ -608,7 +608,7 @@
                 el.style.animationDelay = `${i * 0.2}s`;
             });
             
-            // Initialize the music player
+            // musica
             initMusicPlayer();
         });
 
@@ -641,7 +641,7 @@
 
         window.addEventListener('load', createStars);
 
-        // Music Player Code
+        // codigo, mas codigo.. gracias chatgpt por fixearme todo y ayudarme
         function initMusicPlayer() {
             const audio = document.getElementById('audio');
             const playBtn = document.getElementById('play-btn');
@@ -655,7 +655,7 @@
             const currentSongTitle = document.getElementById('current-song-title');
             const songCounter = document.getElementById('song-counter');
             
-            // Lista de canciones
+            // lista de canciones
             const songs = [
                 {
                     title: "I LOVE YOU",
@@ -665,19 +665,19 @@
                     title: "GHOSTS",
                     path: "musica/ghosts.mp3"
                 }
-                // Puedes agregar más canciones aquí en el futuro
+                
             ];
             
-            // Estado del reproductor
+            // estado del reproductor
             let currentSongIndex = 0;
             let isPlaying = false;
             
-            // Actualizar el contador de canciones
+            // actualizar el contador de canciones
             function updateSongCounter() {
                 songCounter.textContent = `${currentSongIndex + 1}/${songs.length}`;
             }
             
-            // Reproducir una canción específica
+            // reproducir una canción específica
             function playSong(index) {
                 currentSongIndex = index;
                 audio.src = songs[index].path;
@@ -694,7 +694,7 @@
                     });
             }
             
-            // Función para iniciar la reproducción secuencial
+            // función para iniciar la reproducción secuencial
             function startPlayback() {
                 if (!audio.src || !isPlaying) {
                     playSong(0);
@@ -703,7 +703,7 @@
                 }
             }
             
-            // Reproducir/Pausar
+            // reproducir/pausar
             playBtn.addEventListener('click', togglePlay);
             
             function togglePlay() {
@@ -722,7 +722,7 @@
                 }
             }
             
-            // Botón siguiente
+            // boton siguiente
             nextBtn.addEventListener('click', playNextSong);
             
             function playNextSong() {
@@ -732,7 +732,7 @@
                 }
             }
             
-            // Botón anterior
+            // boton anterior
             prevBtn.addEventListener('click', () => {
                 if (songs.length > 0) {
                     // Si el tiempo actual es más de 3 segundos, reiniciar la canción
@@ -746,7 +746,7 @@
                 }
             });
             
-            // Actualizar barra de progreso
+            // actualizar barra de progreso
             audio.addEventListener('timeupdate', () => {
                 if (audio.duration) {
                     const progressPercent = (audio.currentTime / audio.duration) * 100;
@@ -754,7 +754,7 @@
                 }
             });
             
-            // Establecer progreso al hacer clic en la barra
+            // establecer progreso al hacer clic en la barra
             progressBar.addEventListener('click', (e) => {
                 const width = progressBar.clientWidth;
                 const clickX = e.offsetX;
@@ -765,7 +765,7 @@
                 }
             });
             
-            // Control de volumen
+            // control de volumen
             volumeSlider.addEventListener('click', (e) => {
                 const width = volumeSlider.clientWidth;
                 const clickX = e.offsetX;
@@ -775,12 +775,12 @@
                 volumeLevel.style.width = `${volume * 100}%`;
             });
             
-            // Cuando termina una canción, reproducir la siguiente automáticamente
+            // cuando termina una cancion, reproducir la siguiente automaticamente
             audio.addEventListener('ended', () => {
                 playNextSong();
             });
             
-            // Atajos de teclado
+            // atajos de teclado
             document.addEventListener('keydown', (e) => {
                 if (e.code === 'Space') {
                     e.preventDefault();
@@ -792,17 +792,17 @@
                 }
             });
             
-            // Inicializar contador de canciones
+            // inicializar contador de canciones
             updateSongCounter();
         }
         
-        // Función para iniciar la reproducción secuencial
+        // funcion para iniciar la reproducción secuencial
         function startPlayback() {
             const audio = document.getElementById('audio');
             const playIcon = document.getElementById('play-icon');
             
             if (!audio.src) {
-                // Si no hay una canción cargada, cargar la primera
+                // si no hay una canción cargada, cargar la primera
                 audio.src = "musica/iloveyou.mp3";
                 document.getElementById('current-song-title').textContent = "I LOVE YOU";
                 document.getElementById('song-counter').textContent = "1/2";
