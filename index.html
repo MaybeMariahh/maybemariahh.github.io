@@ -32,6 +32,7 @@
             background-position: center;
             background-attachment: fixed;
             overflow-x: hidden;
+            padding-bottom: 80px; /* Espacio para el reproductor */
         }
 
         .container {
@@ -269,68 +270,6 @@
             z-index: -1;
         }
 
-        /* reproductor*/
-        .music-section {
-            background-color: rgba(34, 34, 34, 0.7);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .music-player {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            padding: 10px;
-        }
-        
-        audio {
-            width: 100%;
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.3);
-        }
-        
-        .music-controls {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            margin-top: 10px;
-        }
-        
-        .music-btn {
-            background-color: #a56af5;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-family: 'RetroPixel', 'Courier New', monospace;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .music-btn:hover {
-            background-color: #ff9acf;
-            transform: scale(1.05);
-        }
-        
-        .song-info {
-            width: 100%;
-            text-align: center;
-            padding: 8px;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            margin-top: 10px;
-            color: #e0e0e0;
-        }
-
         @media (max-width: 768px) {
             .greeting {
                 font-size: 2rem;
@@ -377,38 +316,185 @@
                 transform: translateY(0);
             }
         }
-    /* Estilos para el globo en la esquina inferior derecha */
-    .floating-bubble {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: rgba(34, 34, 34, 0.7);
-        backdrop-filter: blur(5px);
-        border-radius: 15px;
-        padding: 15px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #ffffff;
-        font-size: 1.1rem;
-        z-index: 1000;
-        opacity: 0;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        transform: translateY(20px);
-        max-width: 250px;
-        text-align: center;
-        pointer-events: none;
-    }
 
-    .floating-bubble.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
+        /* ESTILOS DEL REPRODUCTOR DE MÚSICA */
+        .music-player {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-top: 2px solid #a56af5;
+        }
+        
+        .song-info {
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            width: 150px;
+        }
+        
+        .song-title {
+            color: #ff9acf;
+            font-weight: bold;
+            margin-left: 10px;
+            text-shadow: 0 0 5px #ff9acf;
+        }
+        
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .control-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .control-btn:hover {
+            color: white;
+        }
+        
+        .play-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #a56af5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .play-btn:hover {
+            background-color: #ff9acf;
+            transform: scale(1.1);
+        }
+        
+        .progress-container {
+            flex-grow: 1;
+            margin: 0 20px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #535353;
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #ff9acf;
+            border-radius: 2px;
+            width: 0%;
+        }
+        
+        .progress-thumb {
+            height: 12px;
+            width: 12px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: -4px;
+            left: 0%;
+            display: none;
+        }
+        
+        .progress-bar:hover .progress-thumb {
+            display: block;
+        }
+        
+        .volume-container {
+            display: flex;
+            align-items: center;
+            width: 120px;
+            margin-right: 20px;
+        }
+        
+        .volume-icon {
+            margin-right: 10px;
+            color: #ccc;
+        }
+        
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            background-color: #535353;
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .volume-level {
+            height: 100%;
+            background-color: #a56af5;
+            border-radius: 2px;
+            width: 70%;
+        }
+        
+        .volume-thumb {
+            height: 10px;
+            width: 10px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: -3px;
+            left: 70%;
+            display: none;
+        }
+        
+        .volume-slider:hover .volume-thumb {
+            display: block;
+        }
 
-    .floating-bubble .bubble-icon {
-        font-size: 1.5rem;
-        margin-bottom: 8px;
-        display: block;
-    }
+        /* Animación para el título de la canción */
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px #ff9acf; }
+            50% { text-shadow: 0 0 15px #ff9acf, 0 0 20px #a56af5; }
+            100% { text-shadow: 0 0 5px #ff9acf; }
+        }
+        
+        .song-title {
+            animation: glow 2s infinite;
+        }
+
+        .music-button {
+            background-color: rgba(34, 34, 34, 0.7);
+            color: #ff9acf;
+            border: 2px solid #a56af5;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            margin: 20px auto;
+            display: block;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+        }
+        
+        .music-button:hover {
+            background-color: rgba(165, 106, 245, 0.7);
+            color: white;
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 <body>
@@ -416,21 +502,15 @@
         <a href="#home"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/home/</a>
         <a href="#about"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/about/</a>
         <a href="#projects"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/projects/</a>
-        <a href="#music"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/music/</a>
-    </div>
-
-    <!-- Globo flotante que aparece al subir con el mouse -->
-    <div class="floating-bubble" id="floatingBubble">
-        <span class="bubble-icon">💭</span>
-        <span>¡Gracias por visitar mi página! Espero que te guste mi música ♪</span>
     </div>
 
     <div class="container">
         <div class="profile-section fade-in" id="home">
-            <img src="https://i.ibb.co/QjzfPW3n/R.png" alt="Profile" class="profile-pic float-animation">
+            <img src="https://i.ibb.co/1Gtd5KRj/708632f50500d51d92c197180e2f2f03.jpg" alt="Profile" class="profile-pic float-animation">
             <h2 class="greeting">¡Hi! I am</h2>
             <h1 class="name">/Mariah/</h1>
             <div class="title">✨ Developer ✨</div>
+            <button class="music-button" onclick="iLoveYou()">♫ Play Music ♫</button>
         </div>
 
         <div class="info-cards fade-in">
@@ -466,25 +546,6 @@
             </div>
         </div>
 
-        <!-- esto -->
-        <div class="music-section fade-in" id="music">
-            <div class="about-title">
-                <span class="icon">🎵</span>
-                <span>My Music</span>
-            </div>
-            <div class="music-player">
-                <audio id="audioPlayer" controls>
-                    <source src="musica/iloveyou.mp3" type="audio/mp3">
-                    Tu navegador no soporta el elemento de audio.
-                </audio>
-                <div class="music-controls">
-                    <button id="playBtn" class="music-btn">▶️ Play</button>
-                    <button id="pauseBtn" class="music-btn">⏸️ Pause</button>
-                    <div class="song-info">Now Playing: iloveyou - hello john doe</div>
-                </div>
-            </div>
-        </div>
-
         <div class="links-section fade-in">
             <a href="https://twitter.com/maybemariahh" class="social-link" target="_blank">
                 <span>🐦</span>
@@ -496,6 +557,48 @@
             <p>Creado con 💕 por mi. Inspirado en Sammwy.com | 2025</p>
         </div>
     </div>
+
+    <!-- Reproductor de música -->
+    <div class="music-player">
+        <div class="song-info">
+            <span class="song-title">I LOVE YOU</span>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" id="shuffle-btn">
+                <i>⇄</i>
+            </button>
+            <button class="control-btn" id="prev-btn">
+                <i>◀◀</i>
+            </button>
+            <button class="play-btn" id="play-btn">
+                <i id="play-icon">▶</i>
+            </button>
+            <button class="control-btn" id="next-btn">
+                <i>▶▶</i>
+            </button>
+            <button class="control-btn" id="repeat-btn">
+                <i>🔁</i>
+            </button>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar">
+                <div class="progress" id="progress"></div>
+                <div class="progress-thumb"></div>
+            </div>
+        </div>
+        
+        <div class="volume-container">
+            <div class="volume-icon">🔊</div>
+            <div class="volume-slider" id="volume-slider">
+                <div class="volume-level" id="volume-level"></div>
+                <div class="volume-thumb"></div>
+            </div>
+        </div>
+    </div>
+    
+    <audio id="audio" src="musica/iloveyou.mp3"></audio>
 
     <script>
         window.addEventListener('load', () => {
@@ -533,20 +636,78 @@
 
         window.addEventListener('load', createStars);
 
-        // controlar coso
-        document.addEventListener('DOMContentLoaded', () => {
-            const audioPlayer = document.getElementById('audioPlayer');
-            const playBtn = document.getElementById('playBtn');
-            const pauseBtn = document.getElementById('pauseBtn');
-            
-            playBtn.addEventListener('click', () => {
-                audioPlayer.play();
-            });
-            
-            pauseBtn.addEventListener('click', () => {
-                audioPlayer.pause();
-            });
+        // Código del reproductor de música
+        const audio = document.getElementById('audio');
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const progress = document.getElementById('progress');
+        const progressBar = document.getElementById('progress-bar');
+        const volumeSlider = document.getElementById('volume-slider');
+        const volumeLevel = document.getElementById('volume-level');
+        
+        // Play/Pause functionality
+        playBtn.addEventListener('click', togglePlay);
+        
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.textContent = '⏸';
+            } else {
+                audio.pause();
+                playIcon.textContent = '▶';
+            }
+        }
+        
+        // Update progress bar
+        audio.addEventListener('timeupdate', () => {
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progress.style.width = `${progressPercent}%`;
         });
+        
+        // Set progress when clicking on progress bar
+        progressBar.addEventListener('click', (e) => {
+            const width = progressBar.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            
+            audio.currentTime = (clickX / width) * duration;
+        });
+        
+        // Control de volumen
+        volumeSlider.addEventListener('click', (e) => {
+            const width = volumeSlider.clientWidth;
+            const clickX = e.offsetX;
+            const volume = clickX / width;
+            
+            audio.volume = volume;
+            volumeLevel.style.width = `${volume * 100}%`;
+        });
+        
+        // When audio ends
+        audio.addEventListener('ended', () => {
+            playIcon.textContent = '▶';
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                togglePlay();
+            }
+        });
+        
+        // Command to play specific music
+        function playMusic(path) {
+            audio.src = path;
+            audio.play();
+            playIcon.textContent = '⏸';
+        }
+        
+        // Special command to play the music from the specified directory
+        function iLoveYou() {
+            playMusic('musica/iloveyou.mp3');
+            document.querySelector('.song-title').textContent = 'I LOVE YOU';
+        }
     </script>
 </body>
 </html>
