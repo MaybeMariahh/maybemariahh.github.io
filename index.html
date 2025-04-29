@@ -536,9 +536,35 @@
             font-size: 0.9rem;
             margin-left: 10px;
         }
+
+               @keyframes floatDown {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(30vh); }
+        }
+
+        .cat-gif-container {
+            position: fixed;
+            right: 30px;
+            top: 0;
+            z-index: 100;
+            animation: floatDown 3s forwards ease-out;
+        }
+
+        .cat-gif {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
     </style>
 </head>
 <body>
+
+        <div class="cat-gif-container">
+        <img src="assets/images/white-cat.gif" alt="White Cat" class="cat-gif">
+    </div>
+
     <div class="nav fade-in">
         <a href="#home"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/home/</a>
         <a href="#about"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/about/</a>
