@@ -495,6 +495,83 @@
             color: white;
             transform: translateY(-3px);
         }
+
+        /* Playlist styles */
+        .playlist-container {
+            margin-top: 20px;
+            background-color: rgba(34, 34, 34, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 15px;
+            max-width: 500px;
+            width: 100%;
+            display: none;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .playlist-title {
+            font-size: 1.3rem;
+            color: #a56af5;
+            margin-bottom: 10px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 5px;
+        }
+        
+        .song-list {
+            list-style: none;
+        }
+        
+        .song-item {
+            padding: 8px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .song-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .song-item.active {
+            background-color: rgba(165, 106, 245, 0.3);
+            border-left: 3px solid #ff9acf;
+        }
+        
+        .song-item-title {
+            font-size: 1rem;
+            color: #e0e0e0;
+        }
+        
+        .song-item.active .song-item-title {
+            color: #ffffff;
+            font-weight: bold;
+        }
+        
+        .show-playlist-btn {
+            background-color: rgba(34, 34, 34, 0.7);
+            color: #a56af5;
+            border: none;
+            border-radius: 50px;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 20px;
+        }
+        
+        .show-playlist-btn:hover {
+            background-color: rgba(165, 106, 245, 0.4);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -556,12 +633,20 @@
         <div class="footer fade-in">
             <p>Creado con 💕 por mi. Inspirado en Sammwy.com | 2025</p>
         </div>
+        
+        <!-- Playlist Container -->
+        <div class="playlist-container" id="playlist-container">
+            <div class="playlist-title">My Music</div>
+            <ul class="song-list" id="song-list">
+                <!-- Songs will be added here dynamically -->
+            </ul>
+        </div>
     </div>
 
     <!-- Reproductor de música -->
     <div class="music-player">
         <div class="song-info">
-            <span class="song-title">I LOVE YOU</span>
+            <span class="song-title" id="current-song-title">Select a song</span>
         </div>
         
         <div class="controls">
@@ -596,15 +681,23 @@
                 <div class="volume-thumb"></div>
             </div>
         </div>
+        
+        <button class="show-playlist-btn" id="show-playlist-btn">
+            <span>☰</span>
+            <span>Playlist</span>
+        </button>
     </div>
     
-    <audio id="audio" src="musica/iloveyou.mp3"></audio>
+    <audio id="audio"></audio>
 
     <script>
         window.addEventListener('load', () => {
             document.querySelectorAll('.fade-in').forEach((el, i) => {
                 el.style.animationDelay = `${i * 0.2}s`;
             });
+            
+            // Initialize the music player
+            initMusicPlayer();
         });
 
         function createStars() {
@@ -636,78 +729,248 @@
 
         window.addEventListener('load', createStars);
 
-        // Código del reproductor de música
-        const audio = document.getElementById('audio');
-        const playBtn = document.getElementById('play-btn');
-        const playIcon = document.getElementById('play-icon');
-        const progress = document.getElementById('progress');
-        const progressBar = document.getElementById('progress-bar');
-        const volumeSlider = document.getElementById('volume-slider');
-        const volumeLevel = document.getElementById('volume-level');
-        
-        // Play/Pause functionality
-        playBtn.addEventListener('click', togglePlay);
-        
-        function togglePlay() {
-            if (audio.paused) {
+        // Music Player Code
+        function initMusicPlayer() {
+            const audio = document.getElementById('audio');
+            const playBtn = document.getElementById('play-btn');
+            const playIcon = document.getElementById('play-icon');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const shuffleBtn = document.getElementById('shuffle-btn');
+            const repeatBtn = document.getElementById('repeat-btn');
+            const progress = document.getElementById('progress');
+            const progressBar = document.getElementById('progress-bar');
+            const volumeSlider = document.getElementById('volume-slider');
+            const volumeLevel = document.getElementById('volume-level');
+            const currentSongTitle = document.getElementById('current-song-title');
+            const showPlaylistBtn = document.getElementById('show-playlist-btn');
+            const playlistContainer = document.getElementById('playlist-container');
+            const songList = document.getElementById('song-list');
+            
+            // Song list
+            const songs = [
+                {
+                    title: "I LOVE YOU",
+                    path: "musica/iloveyou.mp3"
+                },
+                {
+                    title: "GHOSTS",
+                    path: "musica/ghosts.mp3"
+                },
+                // Add more songs here in the future
+                // Example:
+                // {
+                //     title: "SONG NAME",
+                //     path: "musica/songname.mp3"
+                // },
+            ];
+            
+            // Player state
+            let currentSongIndex = 0;
+            let isPlaying = false;
+            let isShuffled = false;
+            let isRepeating = false;
+            
+            // Populate song list
+            function populateSongList() {
+                songList.innerHTML = '';
+                songs.forEach((song, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'song-item';
+                    li.innerHTML = `<span class="song-item-title">${song.title}</span>`;
+                    li.addEventListener('click', () => {
+                        playSong(index);
+                    });
+                    songList.appendChild(li);
+                });
+            }
+            
+            // Initialize song list
+            populateSongList();
+            
+            // Play a specific song
+            function playSong(index) {
+                currentSongIndex = index;
+                audio.src = songs[index].path;
+                currentSongTitle.textContent = songs[index].title;
+                
+                // Update active song in playlist
+                const songItems = document.querySelectorAll('.song-item');
+                songItems.forEach((item, i) => {
+                    if (i === index) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+                
                 audio.play();
                 playIcon.textContent = '⏸';
-            } else {
-                audio.pause();
-                playIcon.textContent = '▶';
+                isPlaying = true;
+            }
+            
+            // Play/Pause functionality
+            playBtn.addEventListener('click', togglePlay);
+            
+            function togglePlay() {
+                if (audio.src) {
+                    if (isPlaying) {
+                        audio.pause();
+                        playIcon.textContent = '▶';
+                        isPlaying = false;
+                    } else {
+                        audio.play();
+                        playIcon.textContent = '⏸';
+                        isPlaying = true;
+                    }
+                } else if (songs.length > 0) {
+                    // If no song is loaded but songs exist in playlist
+                    playSong(0);
+                }
+            }
+            
+            // Next button functionality
+            nextBtn.addEventListener('click', playNextSong);
+            
+            function playNextSong() {
+                if (songs.length > 0) {
+                    if (isShuffled) {
+                        let randomIndex;
+                        do {
+                            randomIndex = Math.floor(Math.random() * songs.length);
+                        } while (randomIndex === currentSongIndex && songs.length > 1);
+                        playSong(randomIndex);
+                    } else {
+                        let nextIndex = (currentSongIndex + 1) % songs.length;
+                        playSong(nextIndex);
+                    }
+                }
+            }
+            
+            // Previous button functionality
+            prevBtn.addEventListener('click', () => {
+                if (songs.length > 0) {
+                    // If current time is more than 3 seconds, restart the song
+                    if (audio.currentTime > 3) {
+                        audio.currentTime = 0;
+                    } else {
+                        // Otherwise go to previous song
+                        let prevIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+                        playSong(prevIndex);
+                    }
+                }
+            });
+            
+            // Shuffle button
+            shuffleBtn.addEventListener('click', () => {
+                isShuffled = !isShuffled;
+                shuffleBtn.style.color = isShuffled ? '#ff9acf' : '#ccc';
+            });
+            
+            // Repeat button
+            repeatBtn.addEventListener('click', () => {
+                isRepeating = !isRepeating;
+                repeatBtn.style.color = isRepeating ? '#ff9acf' : '#ccc';
+                audio.loop = isRepeating;
+            });
+            
+            // Update progress bar
+            audio.addEventListener('timeupdate', () => {
+                if (audio.duration) {
+                    const progressPercent = (audio.currentTime / audio.duration) * 100;
+                    progress.style.width = `${progressPercent}%`;
+                }
+            });
+            
+            // Set progress when clicking on progress bar
+            progressBar.addEventListener('click', (e) => {
+                const width = progressBar.clientWidth;
+                const clickX = e.offsetX;
+                const duration = audio.duration;
+                
+                if (duration) {
+                    audio.currentTime = (clickX / width) * duration;
+                }
+            });
+            
+            // Volume control
+            volumeSlider.addEventListener('click', (e) => {
+                const width = volumeSlider.clientWidth;
+                const clickX = e.offsetX;
+                const volume = clickX / width;
+                
+                audio.volume = volume;
+                volumeLevel.style.width = `${volume * 100}%`;
+            });
+            
+            // When audio ends
+            audio.addEventListener('ended', () => {
+                if (isRepeating) {
+                    // If repeat is on, the native loop will handle it
+                    return;
+                } else if (isShuffled) {
+                    playNextSong();
+                } else if (currentSongIndex < songs.length - 1) {
+                    // If there are more songs in the playlist
+                    playNextSong();
+                } else {
+                    // If it's the last song and not repeating
+                    playIcon.textContent = '▶';
+                    isPlaying = false;
+                }
+            });
+            
+            // Show/hide playlist
+            showPlaylistBtn.addEventListener('click', () => {
+                playlistContainer.style.display = playlistContainer.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    togglePlay();
+                } else if (e.code === 'ArrowRight') {
+                    playNextSong();
+                } else if (e.code === 'ArrowLeft') {
+                    prevBtn.click();
+                }
+            });
+            
+            // Update active song in playlist
+            function updateActiveSong() {
+                const songItems = document.querySelectorAll('.song-item');
+                songItems.forEach((item, i) => {
+                    if (i === currentSongIndex) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
             }
         }
         
-        // Update progress bar
-        audio.addEventListener('timeupdate', () => {
-            const progressPercent = (audio.currentTime / audio.duration) * 100;
-            progress.style.width = `${progressPercent}%`;
-        });
-        
-        // Set progress when clicking on progress bar
-        progressBar.addEventListener('click', (e) => {
-            const width = progressBar.clientWidth;
-            const clickX = e.offsetX;
-            const duration = audio.duration;
-            
-            audio.currentTime = (clickX / width) * duration;
-        });
-        
-        // Control de volumen
-        volumeSlider.addEventListener('click', (e) => {
-            const width = volumeSlider.clientWidth;
-            const clickX = e.offsetX;
-            const volume = clickX / width;
-            
-            audio.volume = volume;
-            volumeLevel.style.width = `${volume * 100}%`;
-        });
-        
-        // When audio ends
-        audio.addEventListener('ended', () => {
-            playIcon.textContent = '▶';
-        });
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                e.preventDefault();
-                togglePlay();
-            }
-        });
-        
         // Command to play specific music
-        function playMusic(path) {
+        function playMusic(path, title) {
+            const audio = document.getElementById('audio');
             audio.src = path;
+            document.getElementById('current-song-title').textContent = title;
             audio.play();
-            playIcon.textContent = '⏸';
+            document.getElementById('play-icon').textContent = '⏸';
+            
+            // Update active song in playlist
+            const songItems = document.querySelectorAll('.song-item');
+            songItems.forEach((item) => {
+                const songTitle = item.querySelector('.song-item-title').textContent;
+                if (songTitle === title) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
         }
         
         // Special command to play the music from the specified directory
         function iLoveYou() {
-            playMusic('musica/iloveyou.mp3');
-            document.querySelector('.song-title').textContent = 'I LOVE YOU';
+            playMusic('musica/iloveyou.mp3', 'I LOVE YOU');
         }
-    </script>
-</body>
-</html>
