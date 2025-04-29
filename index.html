@@ -8,7 +8,7 @@
     <style>
         @font-face {
             font-family: 'RetroPixel';
-            src: url('https://cdnjs.cloudflare.com/ajax/libs/pixel-borders/1.1.1/pixel-borders.min.css') format('truetype');
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/VT323/1.0/VT323-Regular.ttf') format('truetype');
         }
 
         * {
@@ -19,7 +19,7 @@
         }
 
         body {
-            background-color: #000000;
+            background-color: #ff9acf;
             color: #fff;
             line-height: 1.6;
             display: flex;
@@ -27,41 +27,11 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            background-image: url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzdnMTA0eXBoMnM4MWFldXI4bm15YW5jbzZ5cXhlenVkanM4dnEydCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT8qBfjJhOmNPTVWU0/giphy.gif');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             overflow-x: hidden;
-            position: relative;
-        }
-
-        /* simbolos animadiños */
-        .moving-symbols-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .moving-symbols-row {
-            position: absolute;
-            white-space: nowrap;
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.4);
-            animation: moveSymbols 25s linear infinite;
-            opacity: 0.6;
-        }
-
-        @keyframes moveSymbols {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100vw);
-            }
         }
 
         .container {
@@ -71,8 +41,6 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            position: relative;
-            z-index: 1;
         }
 
         .nav {
@@ -99,8 +67,8 @@
             color: #ffffff;
         }
         
-        /* imagen */
-        .img {
+        /* estilo para la imagen del catálogo */
+        .catalog-img {
             height: 24px;
             width: auto;
             margin-right: 5px;
@@ -334,7 +302,7 @@
             animation: float 4s ease-in-out infinite;
         }
 
-        /* Fade-in al cargar */
+        /* fade-in al cargar */
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
@@ -348,16 +316,14 @@
             }
         }
     </style>
-    
-    <div class="moving-symbols-container">
-        
+</head>
+<body>
+    <div class="nav fade-in">
+        <a href="#home"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/home/</a>
+        <a href="#about"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/about/</a>
+        <a href="#projects"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/projects/</a>
     </div>
 
-    <div class="nav fade-in">
-        <a href="#home"><img src="assets/images/catlogo.png">/home/</a>
-        <a href="#about"><img src="assets/images/catlogo.png" class="catalog-img">/about/</a>
-        <a href="#projects"><img src="assets/images/catlogo.png" class="catalog-img">/projects/</a>
-    </div>
     <div class="container">
         <div class="profile-section fade-in" id="home">
             <img src="https://i.ibb.co/1Gtd5KRj/708632f50500d51d92c197180e2f2f03.jpg" alt="Profile" class="profile-pic float-animation">
@@ -412,56 +378,10 @@
     </div>
 
     <script>
-        // estos simbolos se van a mostrar
-        const symbols = "+*:ꔫ:*﹤﹒⪩⪨﹒・❥・+*:ꔫ:*﹤⋆·˚ ༘ *ೃ⁀➷ˏˋ°•*⁀➷𓆩♡𓆪";
-        
-        // crear las filas de símbolos !!
-        function createSymbolRows() {
-            const container = document.querySelector('.moving-symbols-container');
-            const numberOfRows = 10; // numero de filas de símbolos
-            
-            for (let i = 0; i < numberOfRows; i++) {
-                const row = document.createElement('div');
-                row.classList.add('moving-symbols-row');
-                
-                
-                row.textContent = symbols.repeat(3);
-                
-               
-                const top = Math.floor(Math.random() * 100);
-                row.style.top = `${top}%`;
-                
-                
-                const speed = 15 + Math.random() * 25; // entre 15 y 40 segundos
-                row.style.animationDuration = `${speed}s`;
-                
-                
-                const delay = Math.random() * 15;
-                row.style.animationDelay = `-${delay}s`;
-                
-                
-                const opacity = 0.1 + Math.random() * 0.3;
-                row.style.opacity = opacity;
-                
-                
-                const fontSize = 0.8 + Math.random() * 1.2;
-                row.style.fontSize = `${fontSize}rem`;
-                
-                
-                const hue = Math.floor(Math.random() * 360);
-                row.style.color = `hsla(${hue}, 70%, 70%, ${opacity + 0.1})`;
-                
-                container.appendChild(row);
-            }
-        }
-
         window.addEventListener('load', () => {
             document.querySelectorAll('.fade-in').forEach((el, i) => {
                 el.style.animationDelay = `${i * 0.2}s`;
             });
-            
-            // simbolos aesthetic ahr
-            createSymbolRows();
         });
 
         function createStars() {
@@ -495,3 +415,5 @@
     </script>
 </body>
 </html>
+
+ /* pd ya puedo irme a jugar al re4 gracias dios */
