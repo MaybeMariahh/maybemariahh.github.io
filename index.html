@@ -1,100 +1,409 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mariah Page</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      background: pink;
-      font-family: sans-serif;
-      overflow-x: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaybeMariah Page !!</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/pixel-borders/1.1.1/pixel-borders.min.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'RetroPixel';
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/VT323/1.0/VT323-Regular.ttf') format('truetype');
+        }
 
-    /* Fondo animado */
-    .background {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbDc2amVrNm1kMnNvcG8wYThtajFxY2lyamRsdGJ2YzhqcTlodXF1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l3vRnoppYtfEbemBO/giphy.gif') center/cover no-repeat;
-      opacity: 0.8;
-      z-index: -1;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'RetroPixel', 'Courier New', monospace;
+        }
 
-    /* Animación de aparición */
-    .fade-in {
-      opacity: 0;
-      animation: fadeIn 2s ease forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        body {
+            background-color: #ff9acf;
+            color: #fff;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbDc2amVrNm1kMnNvcG8wYThtajFxY2lyamRsdGJ2YzhqcTlodXF1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l3vRnoppYtfEbemBO/giphy.gif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
 
-    header, section, footer {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    }
+        .container {
+            max-width: 700px;
+            width: 90%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-    nav {
-      text-align: center;
-      margin-top: 30px;
-    }
+        .nav {
+            background-color: rgba(34, 34, 34, 0.7);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
 
-    nav a {
-      margin: 0 10px;
-      color: violet;
-      text-decoration: none;
-      font-weight: bold;
-    }
+        .nav a {
+            color: #a56af5;
+            text-decoration: none;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+        }
 
-    nav a:hover {
-      color: white;
-    }
-  </style>
+        .nav a:hover {
+            color: #ffffff;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            background-color: #333;
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(255, 154, 207, 0.7);
+        }
+
+        .greeting {
+            font-size: 2.5rem;
+            color: #a56af5;
+            margin-bottom: 5px;
+            text-shadow: 3px 3px 0px #333;
+        }
+
+        .name {
+            font-size: 3rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0px #333;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .info-cards {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .card {
+            background-color: rgba(34, 34, 34, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+        }
+
+        .card-text {
+            font-size: 1.2rem;
+        }
+
+        .about-section {
+            background-color: rgba(34, 34, 34, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .about-content {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            line-height: 1.7;
+            letter-spacing: 0.5px;
+        }
+
+        .projects-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .project-card {
+            background-color: rgba(34, 34, 34, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-card:hover {
+            transform: scale(1.03);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 120px;
+            background-color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .project-content {
+            padding: 15px;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            color: #e0e0e0;
+        }
+
+        .links-section {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            background-color: rgba(34, 34, 34, 0.7);
+            backdrop-filter: blur(5px);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .social-link:hover {
+            background-color: rgba(165, 106, 245, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .pixel-star {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .greeting {
+                font-size: 2rem;
+            }
+
+            .name {
+                font-size: 2.5rem;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .info-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 100%;
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Fade-in al cargar */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <div class="background"></div>
+    <div class="nav fade-in">
+        <a href="#home">/home/</a>
+        <a href="#about">/about/</a>
+        <a href="#projects">/projects/</a>
+    </div>
 
-  <header class="fade-in">
-    <h1>/Mariah/</h1>
-    <p>✨ Desarrolladora ✨</p>
-    <nav>
-      <a href="#about">/about/</a>
-      <a href="#projects">/projects/</a>
-      <a href="#contact">/contact/</a>
-    </nav>
-  </header>
+    <div class="container">
+        <div class="profile-section fade-in" id="home">
+            <img src="https://i.ibb.co/1Gtd5KRj/708632f50500d51d92c197180e2f2f03.jpg" alt="Profile" class="profile-pic float-animation">
+            <h2 class="greeting">¡Hola! Soy</h2>
+            <h1 class="name">/Mariah/</h1>
+            <div class="title">✨ Desarrolladora ✨</div>
+        </div>
 
-  <section id="about" class="fade-in">
-    <h2>👾 Sobre mí</h2>
-    <p>Soy una programadora que disfruta crear páginas web, hacer música y jugar videojuegos. Me encantan los gatos, el anime y hablar con gente nueva.</p>
-  </section>
+        <div class="info-cards fade-in">
+            <div class="card">
+                <span class="card-icon">♠</span>
+                <span class="card-text">Programmer</span>
+            </div>
+            <div class="card">
+                <span class="card-icon">🏷️</span>
+                <span class="card-text">She/her</span>
+            </div>
+        </div>
 
-  <section id="projects" class="fade-in">
-    <h2>🚧 Proyectos</h2>
-    <p>Estoy trabajando en proyectos nuevos, ¡vuelve pronto!</p>
-  </section>
+        <div class="about-section fade-in" id="about">
+            <div class="about-title">
+                <span class="icon">👾</span>
+                <span>Sobre mí</span>
+            </div>
+            <div class="about-content">
+                Soy una programadora que disfruta de hacer paginas en HTML, jugar juegos, hacer musica y escuchar musica. Hago musica para juegos como FNF o VGM.
+                Me encantan los gatos, series, animes y me encanta pasar tiempo con gente. Soy amigable! Asi que si quieres hablame.
+            </div>
+        </div>
 
-  <section id="contact" class="fade-in">
-    <h2>🐦 Redes Sociales</h2>
-    <p><a href="https://twitter.com/maybemariahh" target="_blank" style="color: lightblue;">Twitter</a></p>
-  </section>
+        <div class="projects-section fade-in" id="projects">
+            <div class="about-section">
+                <div class="about-title">
+                    🚧 Lugar en construcción 🚧
+                </div>
+                <div class="about-content">
+                    Estoy trabajando en nuevos proyectos, ¡vuelve pronto para ver más!
+                </div>
+            </div>
+        </div>
 
-  <footer class="fade-in">
-    <p>Creado con 💕 por Mariah | Inspirado en Sammwy.com | 2025</p>
-  </footer>
+        <div class="links-section fade-in">
+            <a href="https://twitter.com/maybemariahh" class="social-link" target="_blank">
+                <span>🐦</span>
+                <span>Twitter</span>
+            </a>
+        </div>
 
+        <div class="footer fade-in">
+            <p>Creado con 💕 por mi. Inspirado en Sammwy.com | 2025</p>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.fade-in').forEach((el, i) => {
+                el.style.animationDelay = `${i * 0.2}s`;
+            });
+        });
+
+        function createStars() {
+            const body = document.body;
+            const starCount = 30;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('pixel-star');
+
+                const x = Math.floor(Math.random() * window.innerWidth);
+                const y = Math.floor(Math.random() * window.innerHeight);
+                const size = Math.floor(Math.random() * 4) + 2;
+
+                star.style.left = `${x}px`;
+                star.style.top = `${y}px`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                const opacity = Math.random() * 0.7 + 0.3;
+                star.style.opacity = opacity;
+
+                star.style.animation = `float ${Math.random() * 5 + 3}s ease-in-out infinite`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+
+                body.appendChild(star);
+            }
+        }
+
+        window.addEventListener('load', createStars);
+    </script>
 </body>
 </html>
-
