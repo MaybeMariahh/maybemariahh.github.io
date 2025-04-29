@@ -269,6 +269,68 @@
             z-index: -1;
         }
 
+        /* Estilos para el reproductor de música */
+        .music-section {
+            background-color: rgba(34, 34, 34, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .music-player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+        }
+        
+        audio {
+            width: 100%;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        .music-controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .music-btn {
+            background-color: #a56af5;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: 'RetroPixel', 'Courier New', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .music-btn:hover {
+            background-color: #ff9acf;
+            transform: scale(1.05);
+        }
+        
+        .song-info {
+            width: 100%;
+            text-align: center;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            margin-top: 10px;
+            color: #e0e0e0;
+        }
+
         @media (max-width: 768px) {
             .greeting {
                 font-size: 2rem;
@@ -322,6 +384,7 @@
         <a href="#home"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/home/</a>
         <a href="#about"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/about/</a>
         <a href="#projects"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/projects/</a>
+        <a href="#music"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/music/</a>
     </div>
 
     <div class="container">
@@ -361,6 +424,25 @@
                 </div>
                 <div class="about-content">
                     I'm working on new projects, check back soon to see more!
+                </div>
+            </div>
+        </div>
+
+        <!-- Music Player Section -->
+        <div class="music-section fade-in" id="music">
+            <div class="about-title">
+                <span class="icon">🎵</span>
+                <span>My Music</span>
+            </div>
+            <div class="music-player">
+                <audio id="audioPlayer" controls>
+                    <source src="musica/iloveyou.mp3" type="audio/mp3">
+                    Tu navegador no soporta el elemento de audio.
+                </audio>
+                <div class="music-controls">
+                    <button id="playBtn" class="music-btn">▶️ Play</button>
+                    <button id="pauseBtn" class="music-btn">⏸️ Pause</button>
+                    <div class="song-info">Now Playing: iloveyou.mp3</div>
                 </div>
             </div>
         </div>
@@ -412,8 +494,21 @@
         }
 
         window.addEventListener('load', createStars);
+
+        // Music Player Controls
+        document.addEventListener('DOMContentLoaded', () => {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playBtn = document.getElementById('playBtn');
+            const pauseBtn = document.getElementById('pauseBtn');
+            
+            playBtn.addEventListener('click', () => {
+                audioPlayer.play();
+            });
+            
+            pauseBtn.addEventListener('click', () => {
+                audioPlayer.pause();
+            });
+        });
     </script>
 </body>
 </html>
-
- /* pd ya puedo irme a jugar al re4 gracias dios */
