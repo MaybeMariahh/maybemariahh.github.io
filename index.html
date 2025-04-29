@@ -17,6 +17,58 @@
             box-sizing: border-box;
             font-family: 'RetroPixel', 'Courier New', monospace;
         }
+<!-- Language Selector Overlay -->
+<div id="language-selector" style="position: fixed; inset: 0; background: #000c; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; color: white; font-family: sans-serif;">
+    <h2>Select Language / Selecciona Idioma</h2>
+    <div style="margin-top: 20px;">
+        <button onclick="setLanguage('en')" style="margin-right: 20px;">English</button>
+        <button onclick="setLanguage('es')">Español</button>
+    </div>
+</div>
+
+<div id="content" style="display: none;">
+    <!-- Tu página completa aquí -->
+</div>
+
+<script>
+    const translations = {
+        en: {
+            "/home/": "/inicio/",
+            "/about/": "/sobre/",
+            "/projects/": "/proyectos/",
+            "¡Hola! Soy": "Hi! I'm",
+            "/Mariah/": "/Mariah/",
+            "✨ Desarrolladora ✨": "✨ Developer ✨",
+            "Programmer": "Programmer",
+            "She/her": "She/her",
+            "Sobre mí": "About me",
+            "Soy una programadora que disfruta de hacer paginas en HTML, jugar juegos, hacer musica y escuchar musica. Hago musica para juegos como FNF o VGM. Me encantan los gatos, series, animes y me encanta pasar tiempo con gente. Soy amigable! Asi que si quieres hablame.":
+                "I'm a programmer who enjoys making HTML pages, playing games, making and listening to music. I make music for games like FNF or VGM. I love cats, shows, anime and spending time with people. I'm friendly! So feel free to talk to me.",
+            "🚧 Lugar en construcción 🚧": "🚧 Site Under Construction 🚧",
+            "Estoy trabajando en nuevos proyectos, ¡vuelve pronto para ver más!":
+                "I'm working on new projects, come back soon to see more!",
+            "Twitter": "Twitter",
+            "Creado con 💕 por mi. Inspirado en Sammwy.com | 2025":
+                "Made with 💕 by me. Inspired by Sammwy.com | 2025",
+        },
+        es: {} // Español es el idioma base
+    };
+
+    function setLanguage(lang) {
+        document.getElementById('language-selector').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+
+        if (lang === 'en') {
+            document.querySelectorAll('*').forEach(el => {
+                const originalText = el.innerText.trim();
+                if (translations.en[originalText]) {
+                    el.innerText = translations.en[originalText];
+                }
+            });
+        }
+    }
+</script>
+
         
         body {
             background-color: #ff9acf;
