@@ -377,6 +377,38 @@
                 transform: translateY(0);
             }
         }
+    /* Estilos para el globo en la esquina inferior derecha */
+    .floating-bubble {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: rgba(34, 34, 34, 0.7);
+        backdrop-filter: blur(5px);
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        font-size: 1.1rem;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        transform: translateY(20px);
+        max-width: 250px;
+        text-align: center;
+        pointer-events: none;
+    }
+
+    .floating-bubble.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .floating-bubble .bubble-icon {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        display: block;
+    }
     </style>
 </head>
 <body>
@@ -385,6 +417,12 @@
         <a href="#about"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/about/</a>
         <a href="#projects"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/projects/</a>
         <a href="#music"><img src="assets/images/catlogo.png" alt="Catálogo" class="catalog-img">/music/</a>
+    </div>
+
+    <!-- Globo flotante que aparece al subir con el mouse -->
+    <div class="floating-bubble" id="floatingBubble">
+        <span class="bubble-icon">💭</span>
+        <span>¡Gracias por visitar mi página! Espero que te guste mi música ♪</span>
     </div>
 
     <div class="container">
@@ -428,7 +466,7 @@
             </div>
         </div>
 
-        <!-- reproductor de musica -->
+        <!-- esto -->
         <div class="music-section fade-in" id="music">
             <div class="about-title">
                 <span class="icon">🎵</span>
@@ -495,7 +533,7 @@
 
         window.addEventListener('load', createStars);
 
-        // aca para controlar eso
+        // controlar coso
         document.addEventListener('DOMContentLoaded', () => {
             const audioPlayer = document.getElementById('audioPlayer');
             const playBtn = document.getElementById('playBtn');
